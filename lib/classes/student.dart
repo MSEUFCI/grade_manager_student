@@ -11,7 +11,7 @@ class Student {
     required this.grade_status,
   });
 
-  factory Student.fomJson(Map<String, dynamic> json) {
+  factory Student.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
         'gwa': var gwa,

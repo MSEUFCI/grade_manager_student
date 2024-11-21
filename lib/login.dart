@@ -1,5 +1,7 @@
+import 'package:euc_grading_system/helpers/saveToCache.dart';
 import 'package:flutter/material.dart';
 import 'studentDASHBOARD.dart';
+import 'package:euc_grading_system/helpers/loginStudent.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -156,20 +158,55 @@ class _LoginState extends State<Login> {
                           if (_formKey.currentState!.validate()) {
                             String username = _usernameController.text;
                             String password = _passwordController.text;
-                            if (username == 'student' &&
-                                password == 'student123') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => StudentDashboard()),
-                              );
-                            } else {
+
+                            // SEND LOGIN CREDENTIALS TO SERVER FOR COMPARISON
+
+                            loginStudent(username, password).then((data) {
+                              // print(data.message);
+
+                              // [ ] Save id to sharedpref
+                              // [ ] show message if status is success
+
+                              if (data.status == "success") {
+                                // Save id to shared pref in order to access the needed data for the dashboard
+                                // saveToCache("id", data.id);
+                                (new Savetocache()).save("id", data.id);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StudentDashboard()),
+                                );
+                              } else if (data.status == "error") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(data.message),
+                                  ),
+                                );
+                              }
+                            }, onError: (e) {
+                              print("ERROR HERE => ${e}");
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Invalid username or password'),
+                                SnackBar(
+                                  content: Text(e.toString()),
                                 ),
                               );
-                            }
+                            });
+
+                            // if (username == 'student' &&
+                            //     password == 'student123') {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => StudentDashboard()),
+                            //   );
+                            // } else {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content: Text('Invalid username or password'),
+                            //     ),
+                            //   );
+                            // }
                           }
                         },
                         child: const Center(

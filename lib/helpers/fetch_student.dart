@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<Student> fetchStudent() async {
-  final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+  final response =
+      // await http.get(Uri.parse('https://grade_manager.test/student/dashboard'));
+      await http
+          .get(Uri.https('grade_manager.test', '/student/dashboard/data'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

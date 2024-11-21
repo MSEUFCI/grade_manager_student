@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'viewGRADES.dart';
 import 'classes/student.dart';
 import 'package:euc_grading_system/helpers/fetch_student.dart';
+import 'package:euc_grading_system/helpers/saveToCache.dart';
 
 class StudentDashboard extends StatefulWidget {
   @override
@@ -9,20 +10,24 @@ class StudentDashboard extends StatefulWidget {
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
-  late Future<Student> futureStudent;
+  // late Future<Student> futureStudent;
 
-  @override
-  void initState() {
-    super.initState();
-    futureStudent = fetchStudent();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   futureStudent = fetchStudent();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    var user_id = (new Savetocache()).get("id");
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // [ ] For testing, delete later
+            Text(user_id.toString()),
             Stack(
               clipBehavior: Clip.none,
               children: [
