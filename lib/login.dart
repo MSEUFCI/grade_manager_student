@@ -2,6 +2,7 @@ import 'package:euc_grading_system/helpers/saveToCache.dart';
 import 'package:flutter/material.dart';
 import 'studentDASHBOARD.dart';
 import 'package:euc_grading_system/helpers/loginStudent.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -168,14 +169,12 @@ class _LoginState extends State<Login> {
                               // [ ] show message if status is success
 
                               if (data.status == "success") {
-                                // Save id to shared pref in order to access the needed data for the dashboard
-                                // saveToCache("id", data.id);
-                                (new Savetocache()).save("id", data.id);
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => StudentDashboard()),
+                                      builder: (context) => StudentDashboard(
+                                            user_id: data.id,
+                                          )),
                                 );
                               } else if (data.status == "error") {
                                 ScaffoldMessenger.of(context).showSnackBar(
