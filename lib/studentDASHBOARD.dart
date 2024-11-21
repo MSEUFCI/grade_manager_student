@@ -1,9 +1,7 @@
+import 'package:euc_grading_system/classes/student.dart';
 import 'package:flutter/material.dart';
 import 'viewGRADES.dart';
-import 'classes/student.dart';
 import 'package:euc_grading_system/helpers/fetch_student.dart';
-import 'package:euc_grading_system/helpers/saveToCache.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentDashboard extends StatefulWidget {
   final int user_id;
@@ -15,14 +13,46 @@ class StudentDashboard extends StatefulWidget {
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
+  late Future<Student> _futureStudent;
+  String _fullname = '';
+  String _course = '';
+  var _gwa = 0.0;
+  String _scholarship_type = '';
+  int _total_units = 0;
+  Map<String, dynamic> _grade_status = {};
+  int _total_subjects = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureStudent = fetchStudent(widget.user_id);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _futureStudent.then((student) {
+      // print(student.fullname);
+
+      setState(() {
+        _fullname = student.fullname;
+        _course = student.course;
+        _gwa = student.gwa;
+        _scholarship_type = student.scholarship_type;
+        _total_units = student.total_units;
+        _grade_status = student.grade_status;
+        _total_subjects = _grade_status["completed"] +
+            _grade_status["pending"] +
+            _grade_status["failed"] +
+            _grade_status["inc"];
+      });
+    }, onError: (e) {
+      print("ERROR HERE: ${e}");
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // [ ] For testing, delete later
-            Text(widget.user_id.toString()),
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -83,7 +113,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
-                                'Hello Juan Dela Cruz',
+                                'Hello ${_fullname}',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 162, 16, 5),
                                   fontSize: 20,
@@ -95,7 +125,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
-                                'Bachelor of Science in Computer Science',
+                                _course,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -168,21 +198,29 @@ class _StudentDashboardState extends State<StudentDashboard> {
                 children: [
                   _buildInfoCard(
                       'GWA for current semester',
-                      '1.1231',
+                      _gwa.toString(),
                       Colors.black,
                       Colors.white,
                       Color.fromARGB(255, 162, 16, 5)),
                   _buildInfoCard(
                       'You are eligible for',
-                      'Academic Scholar',
+                      _scholarship_type,
                       Colors.black,
                       Colors.white,
                       Color.fromARGB(255, 162, 16, 5),
                       specialFontSize: 14.0),
-                  _buildInfoCard('Total Units', '21', Colors.white,
-                      Color.fromARGB(255, 162, 16, 5), Colors.white),
-                  _buildInfoCard('Total Subjects', '8', Colors.white,
-                      Color.fromARGB(255, 162, 16, 5), Colors.white),
+                  _buildInfoCard(
+                      'Total Units',
+                      _total_units.toString(),
+                      Colors.white,
+                      Color.fromARGB(255, 162, 16, 5),
+                      Colors.white),
+                  _buildInfoCard(
+                      'Total Subjects',
+                      _total_subjects.toString(),
+                      Colors.white,
+                      Color.fromARGB(255, 162, 16, 5),
+                      Colors.white),
                 ],
               ),
             ),
@@ -216,10 +254,26 @@ class _StudentDashboardState extends State<StudentDashboard> {
                     ),
                     Divider(color: Colors.black),
                     SizedBox(height: 6),
-                    _buildGradeStatusRow('Complete', '2', Colors.black),
-                    _buildGradeStatusRow('Pending', '1', Colors.black),
-                    _buildGradeStatusRow('INC', '0', Colors.black),
-                    _buildGradeStatusRow('Failed', '0', Colors.black),
+                    _buildGradeStatusRow(
+                      'Complete',
+                      _grade_status["completed"].toString(),
+                      Colors.black,
+                    ),
+                    _buildGradeStatusRow(
+                      'Pending',
+                      _grade_status["pending"].toString(),
+                      Colors.black,
+                    ),
+                    _buildGradeStatusRow(
+                      'INC',
+                      _grade_status["inc"].toString(),
+                      Colors.black,
+                    ),
+                    _buildGradeStatusRow(
+                      'Failed',
+                      _grade_status["failed"].toString(),
+                      Colors.black,
+                    ),
                   ],
                 ),
               ),

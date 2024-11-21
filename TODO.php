@@ -3,4 +3,6 @@
 // THE REASON, the passwords are hashed by Laravel.
 
 
-// [ ] Use expressjs & flutter bcrypt package instead of the above
+// [x] Use expressjs & flutter bcrypt package instead of the above
+
+// BUG //[ ] Cant login using email

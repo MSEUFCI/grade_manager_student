@@ -2,11 +2,9 @@ import 'package:euc_grading_system/classes/student.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<Student> fetchStudent() async {
-  final response =
-      // await http.get(Uri.parse('https://grade_manager.test/student/dashboard'));
-      await http
-          .get(Uri.https('grade_manager.test', '/student/dashboard/data'));
+Future<Student> fetchStudent(int user_id) async {
+  var url = "http://localhost:3000/student/data/${user_id}";
+  final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
