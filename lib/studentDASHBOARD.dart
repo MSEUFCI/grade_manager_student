@@ -156,7 +156,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ViewGrades(),
+                                    builder: (context) =>
+                                        ViewGrades(user_id: widget.user_id),
                                   ),
                                 );
                               },

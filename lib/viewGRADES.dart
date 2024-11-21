@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ViewGrades extends StatefulWidget {
+  final int user_id;
+
+  const ViewGrades({required this.user_id});
+
   @override
   _ViewGradesState createState() => _ViewGradesState();
 }
@@ -27,7 +31,10 @@ class _ViewGradesState extends State<ViewGrades> {
                 return LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.black.withOpacity(0.7), Colors.black.withOpacity(0.3)],
+                  colors: [
+                    Colors.black.withOpacity(0.7),
+                    Colors.black.withOpacity(0.3)
+                  ],
                 ).createShader(rect);
               },
               blendMode: BlendMode.dstIn,
@@ -65,6 +72,8 @@ class _ViewGradesState extends State<ViewGrades> {
                             padding: EdgeInsets.all(16),
                             child: Column(
                               children: [
+                                // [ ] Delete later, for testing only
+                                Text(widget.user_id.toString()),
                                 Text(
                                   'VIEW GRADES',
                                   style: TextStyle(
@@ -98,7 +107,8 @@ class _ViewGradesState extends State<ViewGrades> {
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          Icon(Icons.arrow_drop_down, color: Colors.white),
+                                          Icon(Icons.arrow_drop_down,
+                                              color: Colors.white),
                                         ],
                                       ),
                                     ),
@@ -112,26 +122,31 @@ class _ViewGradesState extends State<ViewGrades> {
                                       '1st semester 2024-2025',
                                       '2nd semester 2023-2024',
                                       '1st semester 2023-2024',
-                                    ].map((semester) => PopupMenuItem(
-                                      value: semester,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          semester,
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 162, 16, 5),
-                                          ),
-                                        ),
-                                      ),
-                                    )).toList(),
+                                    ]
+                                        .map((semester) => PopupMenuItem(
+                                              value: semester,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: Text(
+                                                  semester,
+                                                  style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 162, 16, 5),
+                                                  ),
+                                                ),
+                                              ),
+                                            ))
+                                        .toList(),
                                   ),
                                 ),
                                 SizedBox(height: 20),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'SUBJECTS',
@@ -179,7 +194,7 @@ class _ViewGradesState extends State<ViewGrades> {
 
   Widget _buildGradeCard(int index) {
     final bool isEven = index % 2 == 0;
-    
+
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(16),

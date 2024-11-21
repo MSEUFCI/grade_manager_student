@@ -6,3 +6,5 @@
 // [x] Use expressjs & flutter bcrypt package instead of the above
 
 // BUG //[ ] Cant login using email
+
+// [ ] remember me feature
