@@ -30,10 +30,10 @@ class _ViewGradesState extends State<ViewGrades> {
 
     fetchSem(widget.user_id).then((data) {
       List sems = data.semData;
-      print("SEMS: ${sems}");
+      // print("SEMS: ${sems}");
 
       sems.forEach((sem) {
-        print("SEM: ${sem}");
+        // print("SEM: ${sem}");
 
         if (sem["sem"] == 1) {
           setState(() {
@@ -104,7 +104,7 @@ class _ViewGradesState extends State<ViewGrades> {
       });
     });
 
-    print("SEMESTERS: ${semesters}");
+    // print("SEMESTERS: ${semesters}");
   }
 
   @override
@@ -132,14 +132,14 @@ class _ViewGradesState extends State<ViewGrades> {
     //   });
     // });
 
-    print("SEMESTERS: ${semesters}");
+    // print("SEMESTERS: ${semesters}");
 
-    print("SELECTED VALUE POPMENU: ${selectedSemester}");
+    // print("SELECTED VALUE POPMENU: ${selectedSemester}");
 
     // // set initial data for the menu
     // selectedSemester = semesters[0].value!;
 
-    print(selectedSemesterId);
+    // print(selectedSemesterId);
 
     return Scaffold(
       body: Stack(
@@ -260,16 +260,16 @@ class _ViewGradesState extends State<ViewGrades> {
                                                     1)! // Get the captured group
                                                 );
 
-                                            print(
-                                              "Extracted number: $selectedSemesterId",
-                                            );
+                                            // print(
+                                            //   "Extracted number: $selectedSemesterId",
+                                            // );
                                             // sem_id =
                                             //     int.parse(selectedSemester);
 
                                             // print(sem_id);
                                           } else {
-                                            print(
-                                                "No number found in parentheses.");
+                                            // print(
+                                            //     "No number found in parentheses.");
                                           }
                                         });
 
@@ -346,7 +346,7 @@ class _ViewGradesState extends State<ViewGrades> {
                               future: futureSubject,
                               builder: (context, snapshot) {
                                 // final bool isEven = index % 2 == 0;
-                                print("SNAPSHOT: $snapshot");
+                                // print("SNAPSHOT: $snapshot");
                                 if (snapshot.hasData) {
                                   // final bool isEven = index % 2 == 0;
                                   // print(snapshot.data!.semData);
@@ -364,244 +364,139 @@ class _ViewGradesState extends State<ViewGrades> {
 
                                   var data = snapshot.data!.semData;
 
-                                  data.forEach((subject) {
-                                    print(subject);
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 16),
-                                      padding: EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        // color: isEven
-                                        //     ? Colors.white
-                                        //     : Colors.grey[50],
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                            color:
-                                                Colors.grey.withOpacity(0.2)),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'SAMPLE · 3 unit/s',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.grey[700],
-                                            ),
-                                          ),
-                                          SizedBox(height: 4),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  'SUBJECT',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
+                                      // print("SNAPSHOT: $data");
+                                      var item = data[index];
+
+                                      // print("<ITEM>: $item");
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: 16),
+                                        padding: EdgeInsets.all(16),
+                                        decoration: BoxDecoration(
+                                          // color: isEven
+                                          //     ? Colors.white
+                                          //     : Colors.grey[50],
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                              color:
+                                                  Colors.grey.withOpacity(0.2)),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${item["subject_code"]} · ${item["units"]} unit/s',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.grey[700],
                                               ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    '1.25',
+                                            ),
+                                            SizedBox(height: 4),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '${item["subject"]}',
                                                     style: TextStyle(
-                                                      fontSize: 24,
+                                                      fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
                                                   ),
-                                                  Text(
-                                                    'PASSED',
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.green,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      '${item["score"]}',
+                                                      style: TextStyle(
+                                                        fontSize: 24,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 8),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'Instructor: ',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                              Text(
-                                                'Juan Mapagmahal',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.red,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 8),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _buildInfoRow(
-                                                      'Section:', 'LA-RLWW1'),
-                                                  _buildInfoRow('Days:', 'MWF'),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _buildInfoRow(
-                                                      'Class Room:', '1'),
-                                                  _buildInfoRow(
-                                                      'Time:', '5:00 - 6:00'),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  });
+                                                    Text(
+                                                      // passing grade is 3.00
+                                                      item["score"] != null
+                                                          ? item["score"] <= 3
+                                                              ? 'PASSED'
+                                                              : 'FAILED'
+                                                          : 'Pending',
 
-                                  // return ListView.builder(
-                                  //   shrinkWrap: true,
-                                  //   physics: NeverScrollableScrollPhysics(),
-                                  //   padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                  //   itemCount: 8,
-                                  //   itemBuilder: (context, index) {
-                                  //     // print("SNAPSHOT: $data");
-                                  //     return Container(
-                                  //       margin: EdgeInsets.only(bottom: 16),
-                                  //       padding: EdgeInsets.all(16),
-                                  //       decoration: BoxDecoration(
-                                  //         // color: isEven
-                                  //         //     ? Colors.white
-                                  //         //     : Colors.grey[50],
-                                  //         color: Colors.white,
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(12),
-                                  //         border: Border.all(
-                                  //             color:
-                                  //                 Colors.grey.withOpacity(0.2)),
-                                  //       ),
-                                  //       child: Column(
-                                  //         crossAxisAlignment:
-                                  //             CrossAxisAlignment.start,
-                                  //         children: [
-                                  //           Text(
-                                  //             'SAMPLE · 3 unit/s',
-                                  //             style: TextStyle(
-                                  //               fontSize: 13,
-                                  //               color: Colors.grey[700],
-                                  //             ),
-                                  //           ),
-                                  //           SizedBox(height: 4),
-                                  //           Row(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment
-                                  //                     .spaceBetween,
-                                  //             children: [
-                                  //               Expanded(
-                                  //                 child: Text(
-                                  //                   'SUBJECT',
-                                  //                   style: TextStyle(
-                                  //                     fontSize: 16,
-                                  //                     fontWeight:
-                                  //                         FontWeight.bold,
-                                  //                   ),
-                                  //                 ),
-                                  //               ),
-                                  //               Column(
-                                  //                 crossAxisAlignment:
-                                  //                     CrossAxisAlignment.end,
-                                  //                 children: [
-                                  //                   Text(
-                                  //                     '1.25',
-                                  //                     style: TextStyle(
-                                  //                       fontSize: 24,
-                                  //                       fontWeight:
-                                  //                           FontWeight.bold,
-                                  //                     ),
-                                  //                   ),
-                                  //                   Text(
-                                  //                     'PASSED',
-                                  //                     style: TextStyle(
-                                  //                       fontSize: 12,
-                                  //                       color: Colors.green,
-                                  //                     ),
-                                  //                   ),
-                                  //                 ],
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //           SizedBox(height: 8),
-                                  //           Row(
-                                  //             children: [
-                                  //               Text(
-                                  //                 'Instructor: ',
-                                  //                 style: TextStyle(
-                                  //                   fontSize: 12,
-                                  //                   color: Colors.grey[600],
-                                  //                 ),
-                                  //               ),
-                                  //               Text(
-                                  //                 'Juan Mapagmahal',
-                                  //                 style: TextStyle(
-                                  //                   fontSize: 12,
-                                  //                   color: Colors.red,
-                                  //                   fontWeight: FontWeight.w500,
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //           SizedBox(height: 8),
-                                  //           Row(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment
-                                  //                     .spaceBetween,
-                                  //             children: [
-                                  //               Column(
-                                  //                 crossAxisAlignment:
-                                  //                     CrossAxisAlignment.start,
-                                  //                 children: [
-                                  //                   _buildInfoRow(
-                                  //                       'Section:', 'LA-RLWW1'),
-                                  //                   _buildInfoRow(
-                                  //                       'Days:', 'MWF'),
-                                  //                 ],
-                                  //               ),
-                                  //               Column(
-                                  //                 crossAxisAlignment:
-                                  //                     CrossAxisAlignment.start,
-                                  //                 children: [
-                                  //                   _buildInfoRow(
-                                  //                       'Class Room:', '1'),
-                                  //                   _buildInfoRow(
-                                  //                       'Time:', '5:00 - 6:00'),
-                                  //                 ],
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  // );
+                                                      style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Instructor: ',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey[600],
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${item["fname"]} ${item["lname"]}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 8),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    _buildInfoRow('Section:',
+                                                        '${item["section"]}'),
+                                                    // _buildInfoRow(
+                                                    //     'Days:', 'MWF'),
+                                                  ],
+                                                ),
+                                                // Column(
+                                                //   crossAxisAlignment:
+                                                //       CrossAxisAlignment.start,
+                                                //   children: [
+                                                //     _buildInfoRow(
+                                                //         'Class Room:', '1'),
+                                                //     _buildInfoRow(
+                                                //         'Time:', '5:00 - 6:00'),
+                                                //   ],
+                                                // ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
 
                                   // return Container(
                                   //   margin: EdgeInsets.only(bottom: 16),

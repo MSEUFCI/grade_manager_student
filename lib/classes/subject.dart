@@ -6,7 +6,7 @@ class Subject {
   });
 
   factory Subject.fromJson(List json) {
-    print(json);
+    // print(json);
 
     try {
       return Subject(semData: json);
