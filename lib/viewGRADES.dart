@@ -40,8 +40,7 @@ class _ViewGradesState extends State<ViewGrades> {
             semesters.add(
               PopupMenuItem(
                 // value: sem["sem_id"].toString(),
-                value:
-                    "1st Semester ${sem["academic_year"]} (${sem["sem_id"]})",
+                value: "1st Semester ${sem["academic_year"]} (${sem["sem_id"]})",
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -62,8 +61,7 @@ class _ViewGradesState extends State<ViewGrades> {
             semesters.add(
               PopupMenuItem(
                 // value: sem["sem_id"].toString(),
-                value:
-                    "2nd Semester ${sem["academic_year"]} (${sem["sem_id"]})",
+                value: "2nd Semester ${sem["academic_year"]} (${sem["sem_id"]})",
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -158,10 +156,7 @@ class _ViewGradesState extends State<ViewGrades> {
                 return LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.7),
-                    Colors.black.withOpacity(0.3)
-                  ],
+                  colors: [Colors.black.withOpacity(0.7), Colors.black.withOpacity(0.3)],
                 ).createShader(rect);
               },
               blendMode: BlendMode.dstIn,
@@ -199,8 +194,8 @@ class _ViewGradesState extends State<ViewGrades> {
                             padding: EdgeInsets.all(16),
                             child: Column(
                               children: [
-                                // [ ] Delete later, for testing only
-                                Text(widget.user_id.toString()),
+                                // [x] Delete later, for testing only
+                                // Text(widget.user_id.toString()),
                                 Text(
                                   'VIEW GRADES',
                                   style: TextStyle(
@@ -235,8 +230,7 @@ class _ViewGradesState extends State<ViewGrades> {
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.white),
+                                            Icon(Icons.arrow_drop_down, color: Colors.white),
                                           ],
                                         ),
                                       ),
@@ -244,20 +238,16 @@ class _ViewGradesState extends State<ViewGrades> {
                                         setState(() {
                                           // selectedSemester = value;
                                           // Regex for removing parenthesis and its contents
-                                          selectedSemester = value.replaceAll(
-                                              RegExp(r'\s*\(.*?\)\s*'), '');
+                                          selectedSemester = value.replaceAll(RegExp(r'\s*\(.*?\)\s*'), '');
 
                                           // Regex to extract the number inside parentheses
                                           RegExp regex = RegExp(r'\((\d+)\)');
 
                                           // Extract the first match
-                                          Match? match =
-                                              regex.firstMatch(value);
+                                          Match? match = regex.firstMatch(value);
 
                                           if (match != null) {
-                                            selectedSemesterId = int.parse(
-                                                match.group(
-                                                    1)! // Get the captured group
+                                            selectedSemesterId = int.parse(match.group(1)! // Get the captured group
                                                 );
 
                                             // print(
@@ -283,8 +273,7 @@ class _ViewGradesState extends State<ViewGrades> {
                                         //   print("ERROR FETCHING SUBJECTS: $e");
                                         // });
 
-                                        futureSubject = fetchSubject(
-                                            widget.user_id, selectedSemesterId);
+                                        futureSubject = fetchSubject(widget.user_id, selectedSemesterId);
                                       },
                                       itemBuilder: (context) => semesters
                                       // .map((semester) => PopupMenuItem(
@@ -309,8 +298,7 @@ class _ViewGradesState extends State<ViewGrades> {
                                 ),
                                 SizedBox(height: 20),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'SUBJECTS',
@@ -382,15 +370,11 @@ class _ViewGradesState extends State<ViewGrades> {
                                           //     ? Colors.white
                                           //     : Colors.grey[50],
                                           color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.2)),
+                                          borderRadius: BorderRadius.circular(12),
+                                          border: Border.all(color: Colors.grey.withOpacity(0.2)),
                                         ),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '${item["subject_code"]} · ${item["units"]} unit/s',
@@ -401,39 +385,36 @@ class _ViewGradesState extends State<ViewGrades> {
                                             ),
                                             SizedBox(height: 4),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Expanded(
                                                   child: Text(
                                                     '${item["subject"]}',
                                                     style: TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      '${item["score"]}',
+                                                      (item["score"] != null) ? '${item["score"]}' : "Pending",
                                                       style: TextStyle(
                                                         fontSize: 24,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
                                                     Text(
                                                       // passing grade is 3.00
-                                                      item["score"] != null
-                                                          ? item["score"] <= 3
+                                                      (item["score"] != null)
+                                                          ? (item["score"] <= 3 && item["score"] > 0)
                                                               ? 'PASSED'
-                                                              : 'FAILED'
-                                                          : 'Pending',
+                                                              : (item["score"] > 3)
+                                                                  ? 'FAILED'
+                                                                  : 'INC'
+                                                          : 'PENDING',
 
                                                       style: TextStyle(
                                                         fontSize: 12,
@@ -455,7 +436,7 @@ class _ViewGradesState extends State<ViewGrades> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${item["fname"]} ${item["lname"]}',
+                                                  (item["fname"] != null && item["lname"] != null) ? '${item["fname"]} ${item["lname"]}' : 'TBA',
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.red,
@@ -466,16 +447,12 @@ class _ViewGradesState extends State<ViewGrades> {
                                             ),
                                             SizedBox(height: 8),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    _buildInfoRow('Section:',
-                                                        '${item["section"]}'),
+                                                    _buildInfoRow('Section:', (item["section"] != null) ? '${item["section"]}' : 'TBA'),
                                                     // _buildInfoRow(
                                                     //     'Days:', 'MWF'),
                                                   ],
@@ -608,7 +585,9 @@ class _ViewGradesState extends State<ViewGrades> {
                                   // );
                                 }
 
-                                return const CircularProgressIndicator();
+                                return const CircularProgressIndicator(
+                                  color: Colors.redAccent,
+                                );
                               }),
                         ],
                       ),
