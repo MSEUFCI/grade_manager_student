@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:euc_grading_system/classes/sem.dart';
+import 'package:euc_grading_system/helpers/fetch_sem.dart';
 
 class ViewGrades extends StatefulWidget {
   final int user_id;
@@ -11,9 +13,117 @@ class ViewGrades extends StatefulWidget {
 
 class _ViewGradesState extends State<ViewGrades> {
   String selectedSemester = '1st semester 2024-2025';
+  // late Future<Sem> _sem;
+
+  // For populating pop menu button
+  List<PopupMenuItem<String>> semesters = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // _sem = fetchSem(widget.user_id);
+
+    fetchSem(widget.user_id).then((data) {
+      List sems = data.semData;
+      print("SEMS: ${sems}");
+
+      sems.forEach((sem) {
+        print("SEM: ${sem}");
+
+        if (sem["sem"] == 1) {
+          setState(() {
+            semesters.add(
+              PopupMenuItem(
+                value: sem["sem_id"].toString(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "1st Semester ${sem["academic_year"]}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 162, 16, 5),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        } else if (sem["sem"] == 2) {
+          setState(() {
+            semesters.add(
+              PopupMenuItem(
+                value: sem["sem_id"].toString(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "2nd Semester ${sem["academic_year"]}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 162, 16, 5),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        } else if (sem["sem"] == 3) {
+          setState(() {
+            semesters.add(
+              PopupMenuItem(
+                value: sem["sem_id"].toString(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "Summer ${sem["academic_year"]}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 162, 16, 5),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        }
+      });
+    });
+
+    print("SEMESTERS: ${semesters}");
+  }
 
   @override
   Widget build(BuildContext context) {
+    // _sem.then((data) {
+    //   List sems = data.semData;
+    //   print("SEMS: ${sems}");
+
+    //   sems.forEach((sem) {
+    //     print("SEM: ${sem}");
+
+    //     if (sem["sem"] == 1) {
+    //       setState(() {
+    //         semesters.add("1st Semester ${sem["academic_year"]}");
+    //       });
+    //     } else if (sem["sem"] == 2) {
+    //       setState(() {
+    //         semesters.add("2nd Semester ${sem["academic_year"]}");
+    //       });
+    //     } else if (sem["sem"] == 3) {
+    //       setState(() {
+    //         semesters.add("Summer ${sem["academic_year"]}");
+    //       });
+    //     }
+    //   });
+    // });
+
+    print("SEMESTERS: ${semesters}");
+
     return Scaffold(
       body: Stack(
         children: [
@@ -83,65 +193,61 @@ class _ViewGradesState extends State<ViewGrades> {
                                   ),
                                 ),
                                 SizedBox(height: 16),
+                                // REVIEW:POP MENU BUTTON
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 162, 16, 5),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: PopupMenuButton<String>(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 8,
-                                        horizontal: 16,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            selectedSemester,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Icon(Icons.arrow_drop_down,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                    ),
-                                    onSelected: (String value) {
-                                      setState(() {
-                                        selectedSemester = value;
-                                      });
-                                    },
-                                    itemBuilder: (context) => [
-                                      '2nd semester 2024-2025',
-                                      '1st semester 2024-2025',
-                                      '2nd semester 2023-2024',
-                                      '1st semester 2023-2024',
-                                    ]
-                                        .map((semester) => PopupMenuItem(
-                                              value: semester,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Text(
-                                                  semester,
-                                                  style: TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 162, 16, 5),
-                                                  ),
-                                                ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 8,
+                                          horizontal: 16,
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              selectedSemester,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
                                               ),
-                                            ))
-                                        .toList(),
-                                  ),
+                                            ),
+                                            Icon(Icons.arrow_drop_down,
+                                                color: Colors.white),
+                                          ],
+                                        ),
+                                      ),
+                                      onSelected: (String value) {
+                                        setState(() {
+                                          selectedSemester = value;
+                                        });
+                                      },
+                                      itemBuilder: (context) => semesters
+                                      // .map((semester) => PopupMenuItem(
+                                      //       value: semester,
+                                      //       child: Container(
+                                      //         decoration: BoxDecoration(
+                                      //           color: Colors.transparent,
+                                      //           borderRadius:
+                                      //               BorderRadius.circular(8),
+                                      //         ),
+                                      //         child: Text(
+                                      //           semester,
+                                      //           style: TextStyle(
+                                      //             color: Color.fromARGB(
+                                      //                 255, 162, 16, 5),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     ))
+                                      // .toList(),
+                                      ),
                                 ),
                                 SizedBox(height: 20),
                                 Row(

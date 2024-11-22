@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<Login> loginStudent(String input_type, String password) async {
+  var url = 'http://localhost:3000/login';
   final response = await http.post(
-    Uri.parse('http://localhost:3000/login'),
+    Uri.parse(url),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
