@@ -14,7 +14,7 @@ class ViewGrades extends StatefulWidget {
 }
 
 class _ViewGradesState extends State<ViewGrades> {
-  String selectedSemester = '';
+  String selectedSemester = 'Select Semester';
   int selectedSemesterId = 0;
   Future<Subject>? futureSubject;
   // int sem_id = 0;
@@ -31,6 +31,22 @@ class _ViewGradesState extends State<ViewGrades> {
     fetchSem(widget.user_id).then((data) {
       List sems = data.semData;
       // print("SEMS: ${sems}");
+
+      // REVIEW: Show initial value to the dropdown
+      // setState(() {
+      //   if (sems[0]["sem"] == 1) {
+      //     // This is for the initial selected item
+      //     selectedSemester = "1st Semester ${sems[0]["academic_year"]}";
+      //   } else if (sems[0]["sem"] == 2) {
+      //     // This is for the initial selected item
+      //     selectedSemester = "2nd Semester ${sems[0]["academic_year"]}";
+      //   } else if (sems[0]["sem"] == 3) {
+      //     // This is for the initial selected item
+      //     selectedSemester = "Summer ${sems[0]["academic_year"]}";
+      //   }
+      // });
+
+      // print(selectedSemesterId);
 
       sems.forEach((sem) {
         // print("SEM: ${sem}");
@@ -585,8 +601,22 @@ class _ViewGradesState extends State<ViewGrades> {
                                   // );
                                 }
 
-                                return const CircularProgressIndicator(
-                                  color: Colors.redAccent,
+                                return Column(
+                                  children: [
+                                    const CircularProgressIndicator(
+                                      color: Colors.redAccent,
+                                      strokeCap: StrokeCap.round,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Please select a semester',
+                                      style: TextStyle(
+                                        color: Colors.redAccent,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
                                 );
                               }),
                         ],
