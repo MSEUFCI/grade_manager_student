@@ -46,8 +46,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30),
@@ -71,8 +70,7 @@ class _LoginState extends State<Login> {
                             focusedBorder: InputBorder.none,
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -84,8 +82,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30),
@@ -115,16 +112,13 @@ class _LoginState extends State<Login> {
                                 });
                               },
                               child: Icon(
-                                _obscureText
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
+                                _obscureText ? Icons.visibility_off : Icons.visibility,
                                 color: Colors.grey,
                               ),
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -143,75 +137,75 @@ class _LoginState extends State<Login> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         gradient: LinearGradient(
-                          colors: [
-                            const Color.fromRGBO(202, 24, 24, 1),
-                            const Color.fromRGBO(151, 45, 45, 1)
-                          ],
+                          colors: [const Color.fromRGBO(202, 24, 24, 1), const Color.fromRGBO(151, 45, 45, 1)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
                       ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(30),
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            String username = _usernameController.text;
-                            String password = _passwordController.text;
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              String username = _usernameController.text;
+                              String password = _passwordController.text;
 
-                            // SEND LOGIN CREDENTIALS TO SERVER FOR COMPARISON
+                              // SEND LOGIN CREDENTIALS TO SERVER FOR COMPARISON
 
-                            loginStudent(username, password).then((data) {
-                              // print(data.message);
+                              loginStudent(username, password).then((data) {
+                                // print(data.message);
 
-                              // [ ] Save id to sharedpref
-                              // [ ] show message if status is success
+                                // [ ] Save id to sharedpref
+                                // [ ] show message if status is success
 
-                              if (data.status == "success") {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => StudentDashboard(
-                                            user_id: data.id,
-                                          )),
-                                );
-                              } else if (data.status == "error") {
+                                if (data.status == "success") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StudentDashboard(
+                                              user_id: data.id,
+                                            )),
+                                  );
+                                } else if (data.status == "error") {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(data.message),
+                                    ),
+                                  );
+                                }
+                              }, onError: (e) {
+                                print("ERROR HERE => ${e}");
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text(data.message),
+                                    content: Text(e.toString()),
                                   ),
                                 );
-                              }
-                            }, onError: (e) {
-                              print("ERROR HERE => ${e}");
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(e.toString()),
-                                ),
-                              );
-                            });
+                              });
 
-                            // if (username == 'student' &&
-                            //     password == 'student123') {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => StudentDashboard()),
-                            //   );
-                            // } else {
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //     const SnackBar(
-                            //       content: Text('Invalid username or password'),
-                            //     ),
-                            //   );
-                            // }
-                          }
-                        },
-                        child: const Center(
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                              // if (username == 'student' &&
+                              //     password == 'student123') {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => StudentDashboard()),
+                              //   );
+                              // } else {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text('Invalid username or password'),
+                              //     ),
+                              //   );
+                              // }
+                            }
+                          },
+                          child: const Center(
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
