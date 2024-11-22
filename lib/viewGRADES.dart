@@ -13,7 +13,8 @@ class ViewGrades extends StatefulWidget {
 
 class _ViewGradesState extends State<ViewGrades> {
   String selectedSemester = '';
-  String selectedSemesterId = '';
+  int selectedSemesterId = 0;
+  // int sem_id = 0;
   // late Future<Sem> _sem;
 
   // For populating pop menu button
@@ -251,10 +252,18 @@ class _ViewGradesState extends State<ViewGrades> {
                                               regex.firstMatch(value);
 
                                           if (match != null) {
-                                            selectedSemesterId = match.group(
-                                                1)!; // Get the captured group
+                                            selectedSemesterId = int.parse(
+                                                match.group(
+                                                    1)! // Get the captured group
+                                                );
+
                                             print(
-                                                "Extracted number: $selectedSemesterId");
+                                              "Extracted number: $selectedSemesterId",
+                                            );
+                                            // sem_id =
+                                            //     int.parse(selectedSemester);
+
+                                            // print(sem_id);
                                           } else {
                                             print(
                                                 "No number found in parentheses.");
