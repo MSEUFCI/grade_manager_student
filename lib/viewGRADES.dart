@@ -12,7 +12,8 @@ class ViewGrades extends StatefulWidget {
 }
 
 class _ViewGradesState extends State<ViewGrades> {
-  String selectedSemester = '1st semester 2024-2025';
+  String selectedSemester = '';
+  String selectedSemesterId = '';
   // late Future<Sem> _sem;
 
   // For populating pop menu button
@@ -34,7 +35,9 @@ class _ViewGradesState extends State<ViewGrades> {
           setState(() {
             semesters.add(
               PopupMenuItem(
-                value: sem["sem_id"].toString(),
+                // value: sem["sem_id"].toString(),
+                value:
+                    "1st Semester ${sem["academic_year"]} (${sem["sem_id"]})",
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -54,7 +57,9 @@ class _ViewGradesState extends State<ViewGrades> {
           setState(() {
             semesters.add(
               PopupMenuItem(
-                value: sem["sem_id"].toString(),
+                // value: sem["sem_id"].toString(),
+                value:
+                    "2nd Semester ${sem["academic_year"]} (${sem["sem_id"]})",
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -74,7 +79,8 @@ class _ViewGradesState extends State<ViewGrades> {
           setState(() {
             semesters.add(
               PopupMenuItem(
-                value: sem["sem_id"].toString(),
+                // value: sem["sem_id"].toString(),
+                value: "Summer ${sem["academic_year"]} (${sem["sem_id"]})",
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -123,6 +129,13 @@ class _ViewGradesState extends State<ViewGrades> {
     // });
 
     print("SEMESTERS: ${semesters}");
+
+    print("SELECTED VALUE POPMENU: ${selectedSemester}");
+
+    // // set initial data for the menu
+    // selectedSemester = semesters[0].value!;
+
+    print(selectedSemesterId);
 
     return Scaffold(
       body: Stack(
@@ -225,7 +238,27 @@ class _ViewGradesState extends State<ViewGrades> {
                                       ),
                                       onSelected: (String value) {
                                         setState(() {
-                                          selectedSemester = value;
+                                          // selectedSemester = value;
+                                          // Regex for removing parenthesis and its contents
+                                          selectedSemester = value.replaceAll(
+                                              RegExp(r'\s*\(.*?\)\s*'), '');
+
+                                          // Regex to extract the number inside parentheses
+                                          RegExp regex = RegExp(r'\((\d+)\)');
+
+                                          // Extract the first match
+                                          Match? match =
+                                              regex.firstMatch(value);
+
+                                          if (match != null) {
+                                            selectedSemesterId = match.group(
+                                                1)!; // Get the captured group
+                                            print(
+                                                "Extracted number: $selectedSemesterId");
+                                          } else {
+                                            print(
+                                                "No number found in parentheses.");
+                                          }
                                         });
                                       },
                                       itemBuilder: (context) => semesters
