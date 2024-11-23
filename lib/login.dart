@@ -116,7 +116,7 @@ class _LoginState extends State<Login> {
                             child: TextFormField(
                               controller: _usernameController,
                               decoration: InputDecoration(
-                                hintText: 'Username',
+                                hintText: 'Student ID',
                                 hintStyle: TextStyle(color: Colors.grey[600]),
                                 border: InputBorder.none,
                                 enabledBorder: InputBorder.none,
